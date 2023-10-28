@@ -1,7 +1,11 @@
-import { screen, render, fireEvent } from "@testing-library/react";
+import { screen, render, fireEvent, act } from "@testing-library/react";
 import AddPage from "./AddPage";
 import { MemoryRouter } from "react-router-dom";
 import { initialReservation } from "./AddPage.types";
+import userEvent from "@testing-library/user-event";
+import axios from "axios";
+
+jest.mock("axios");
 
 describe("AddPage", () => {
   //Check if the "Add Reservation" Header is present
@@ -22,10 +26,12 @@ describe("AddPage", () => {
 
     expect(nameInput).toBeInTheDocument();
     expect(arrivalDateInput).toBeInTheDocument();
+
     expect(addButton).toBeInTheDocument();
   });
 
-  test("should handle input change", () => {
+  test("should handle input change", async () => {
+    userEvent.setup();
     render(
       <MemoryRouter>
         <AddPage {...initialReservation} />
@@ -36,9 +42,38 @@ describe("AddPage", () => {
     const arrivalDateInput = screen.getByLabelText("Date of Arrival");
 
     fireEvent.change(nameInput, { target: { value: "John" } });
+
     fireEvent.change(arrivalDateInput, { target: { value: "2023-10-30" } });
 
+    // Convert the expected value to match the component's format
+    const formattedDate = "2023-10-30";
+
     expect(nameInput).toHaveValue("John");
-    expect(arrivalDateInput).toHaveValue("2023-10-30");
+    expect(arrivalDateInput).toHaveValue(formattedDate);
+  });
+
+  test("should handle form submission", async () => {
+    render(
+      <MemoryRouter>
+        <AddPage {...initialReservation} />
+      </MemoryRouter>
+    );
+
+    const nameInput = screen.getByLabelText("First Name");
+    const arrivalDateInput = screen.getByLabelText("Date of Arrival");
+    const submitButton = screen.getByRole("button", { name: "Submit" });
+
+    // Setting values for the inputs
+    userEvent.type(nameInput, "John");
+    userEvent.type(arrivalDateInput, "2023-10-30");
+
+    // Mock the axios
+    (axios.post as jest.Mock).mockResolvedValue({ data: "Some response data" });
+
+    // Simulate form submission
+    fireEvent.click(submitButton);
+
+    expect(nameInput).toHaveValue("");
+    expect(arrivalDateInput).toHaveValue("");
   });
 });

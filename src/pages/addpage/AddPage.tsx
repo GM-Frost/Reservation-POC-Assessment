@@ -18,11 +18,12 @@ const AddPage = (props: IReservation) => {
           [name.substring("stay.".length)]: value,
         },
       });
+    } else {
+      setFormData({
+        ...formData,
+        [name]: value,
+      });
     }
-    setFormData({
-      ...formData,
-      [name]: value,
-    });
   };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
