@@ -3,13 +3,27 @@ export interface IReservation {
     arrivalDate: string;
     departureDate: string;
   };
-  firstName: string;
   room: {
     roomSize: string;
+    roomQuantity: number;
+  };
+  firstName: string;
+  lastName: string;
+  email: string;
+  phone: string;
+  addressStreet: {
+    streetName: string;
+    streetNumber: string;
+  };
+  addressLocation: {
+    zipCode: string;
+    state: string;
+    city: string;
   };
   extras: string[];
-  tags: string[];
   payment: string;
+  note: string;
+  tags: string[];
   reminder: boolean;
   newsletter: boolean;
   confirm: boolean;
@@ -20,13 +34,27 @@ export const initialReservation: IReservation = {
     arrivalDate: "",
     departureDate: "",
   },
-  firstName: "",
   room: {
     roomSize: "Standard Room",
+    roomQuantity: 1,
+  },
+  firstName: "",
+  lastName: "",
+  email: "",
+  phone: "",
+  addressStreet: {
+    streetName: "",
+    streetNumber: "",
+  },
+  addressLocation: {
+    zipCode: "",
+    state: "",
+    city: "",
   },
   extras: [],
-  tags: [],
   payment: "",
+  note: "",
+  tags: [],
   reminder: false,
   newsletter: false,
   confirm: false,

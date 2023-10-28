@@ -139,116 +139,348 @@ const AddPage = (props: IReservation) => {
               Add Reservation
             </h2>
             <hr />
-            <form onSubmit={handleSubmit} className="flex flex-col gap-4 mt-4">
-              <label htmlFor="name">Name</label>
-              <input
-                type="text"
-                id="name"
-                aria-label="First Name"
-                name="firstName"
-                value={formData.firstName}
-                onChange={handleInputChange}
-                maxLength={25}
-                className="border border-gray-400 rounded-md p-2"
-              />
-
-              <label htmlFor="arrivalDate">Arrival Date</label>
-              <input
-                type="date"
-                id="arrivalDate"
-                className="border border-gray-400 rounded-md p-2"
-                aria-label="Date of Arrival"
-                name="stay.arrivalDate"
-                value={formData.stay.arrivalDate}
-                onChange={handleInputChange}
-              />
-
-              <label htmlFor="arrivalDate">Arrival Date</label>
-              <select
-                className="appearance-none bg-transparent border-none w-full text-gray-700 mr-3 py-1 px-2 leading-tight focus:outline-none"
-                aria-label="Room Size"
-                name="room.roomSize"
-                value={formData.room.roomSize}
-                onChange={handleSelectChange}
-              >
-                <option value="standard-room">Standard Room</option>
-                <option value="deluxe-room">Deluxe Room</option>
-                <option value="family-suite">Family Suite</option>
-                <option value="honeymoon-suite">Honeymoon Suite</option>
-                <option value="business-suite">Business Suite</option>
-                <option value="presidential-suite">Presidential Suite</option>
-              </select>
-
-              <label className="block text-gray-400 text-sm mb-2 text-left">
-                Extras
-                <div className="flex items-center border-b border-gray-500 py-2">
-                  <select
-                    multiple
-                    className="appearance-none bg-transparent border-none w-full text-gray-700 mr-3 py-1 px-2 leading-tight focus:outline-none bg-gray-100 rounded-lg"
-                    aria-label="Extras"
-                    name="extras"
-                    value={selectedExtras}
-                    onChange={handleExtraChange}
-                  >
-                    {availableExtras.map((extra) => (
-                      <option key={extra} value={extra}>
-                        {extra}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-              </label>
-
-              <label
-                htmlFor="tagsInput"
-                className="block text-gray-400 text-sm mb-2 text-left"
-              >
-                Tags
-                <div className="flex flex-wrap  items-center border-b border-gray-500 py-2">
-                  <ul className="flex flex-wrap">
-                    {tag.map((allTag, index) => (
-                      <div
-                        key={allTag}
-                        data-testid={`tag-${index}`}
-                        className="tag relative flex m-1 font-medium py-1 px-1  rounded-full text-gray-600 bg-gray-200 border border-gray-200"
-                      >
-                        <li className="flex gap-1">
-                          <span>{allTag}</span>
-                          <GrFormClose
-                            data-testid={`removeTag-${index}`}
-                            onClick={() => removeTags(index)}
-                            className="text-white bg-gray-400 rounded-full w-4 h-4  cursor-pointer  hover:bg-gray-600  hover:text-white"
-                          />
-                        </li>
+            <form
+              data-testid="reservation-form"
+              onSubmit={handleSubmit}
+              className="flex flex-col gap-4 mt-4"
+            >
+              <div className="mt-4">
+                <div className="flex flex-wrap -mx-3 mb-6">
+                  <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+                    <label
+                      htmlFor="arrivalDate"
+                      className="block text-gray-400 text-sm mb-2 text-left"
+                    >
+                      Date of Arrival
+                      <div className="flex items-center border-b border-gray-500 py-2">
+                        <input
+                          className="appearance-none bg-transparent border-none w-full text-gray-700 mr-3 py-1 px-2 leading-tight focus:outline-none"
+                          type="date"
+                          aria-label="Date of Arrival"
+                          name="stay.arrivalDate"
+                          value={formData.stay.arrivalDate}
+                          onChange={handleInputChange}
+                          data-testid="arrivalDateInput"
+                        />
                       </div>
-                    ))}
-                  </ul>
-                  <input
-                    type="text"
-                    value={newTag}
-                    id="tagsInput"
-                    name="tags"
-                    data-testid="tagsInput"
-                    className="appearance-none bg-transparent border-none w-full text-gray-700 mr-3 py-1 px-2 leading-tight focus:outline-none"
-                    placeholder="Press Space to add tags"
-                    onChange={(e) => setNewTag(e.target.value)}
-                    onKeyUp={(e) => addTags(e)}
-                  />
+                    </label>
+                  </div>
+                  <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+                    <label className="block text-gray-400 text-sm mb-2 text-left">
+                      Date of Departure
+                      <div className="flex items-center border-b border-gray-500 py-2">
+                        <input
+                          className="appearance-none bg-transparent border-none w-full text-gray-700 mr-3 py-1 px-2 leading-tight focus:outline-none"
+                          type="date"
+                          aria-label="Date of Departure"
+                          name="stay.departureDate"
+                          data-testid="departureDateInput"
+                          value={formData.stay.departureDate}
+                          onChange={handleInputChange}
+                        />
+                      </div>
+                    </label>
+                  </div>
                 </div>
-              </label>
+              </div>
+              <div className="mt-4">
+                <div className="flex flex-wrap -mx-3 mb-6">
+                  <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+                    <label
+                      className="block text-gray-400 text-sm mb-2 text-left"
+                      htmlFor="roomSizeSelect"
+                    >
+                      Room Size
+                      <div className="flex items-center border-b border-gray-500 py-2">
+                        <select
+                          className="appearance-none bg-transparent border-none w-full text-gray-700 mr-3 py-1 px-2 leading-tight focus:outline-none"
+                          aria-label="Room Size"
+                          name="room.roomSize"
+                          data-testid="roomSizeSelect"
+                          value={formData.room.roomSize}
+                          onChange={handleSelectChange}
+                        >
+                          <option value="standard-room">Standard Room</option>
+                          <option value="deluxe-room">Deluxe Room</option>
+                          <option value="family-suite">Family Suite</option>
+                          <option value="honeymoon-suite">
+                            Honeymoon Suite
+                          </option>
+                          <option value="business-suite">Business Suite</option>
+                          <option value="presidential-suite">
+                            Presidential Suite
+                          </option>
+                        </select>
+                      </div>
+                      <p className="text-gray-500 text-xs italic">
+                        Choose a room type
+                      </p>
+                    </label>
+                  </div>
+
+                  <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+                    <label
+                      className="block text-gray-400 text-sm mb-2 text-left"
+                      htmlFor="roomQuantityInput"
+                    >
+                      Room Quantity
+                      <div className="flex items-center border-b border-gray-500 py-2">
+                        <input
+                          className="appearance-none bg-transparent border-none w-full text-gray-700 mr-3 py-1 px-2 leading-tight focus:outline-none"
+                          type="number"
+                          aria-label="Room Quantity"
+                          name="room.roomQuantity"
+                          data-testid="roomQuantityInput"
+                          value={formData.room.roomQuantity}
+                          onChange={handleInputChange}
+                          min="1"
+                          max="5"
+                        />
+                      </div>
+                      <p className="text-gray-500 text-xs italic">Maximum: 5</p>
+                    </label>
+                  </div>
+                </div>
+              </div>
+
+              <div className="mt-4">
+                <div className="flex flex-wrap -mx-3 mb-6">
+                  <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+                    <label
+                      htmlFor="firstNameInput"
+                      className="block text-gray-400 text-sm mb-2 text-left"
+                    >
+                      First Name
+                      <div className="flex items-center border-b border-gray-500 py-2">
+                        <input
+                          className="appearance-none bg-transparent border-none w-full text-gray-700 mr-3 py-1 px-2 leading-tight focus:outline-none"
+                          type="text"
+                          placeholder="IDM"
+                          aria-label="First Name"
+                          name="firstName"
+                          data-testid="firstNameInput"
+                          value={formData.firstName}
+                          onChange={handleInputChange}
+                          maxLength={25}
+                        />
+                      </div>
+                      <p className="text-gray-500 text-end text-xs italic">
+                        {formData.firstName.length}/25
+                      </p>
+                    </label>
+                  </div>
+
+                  <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+                    <label
+                      htmlFor="lastNameInput"
+                      className="block text-gray-400 text-sm mb-2 text-left"
+                    >
+                      Last Name
+                      <div className="flex items-center border-b border-gray-500 py-2">
+                        <input
+                          className="appearance-none bg-transparent border-none w-full text-gray-700 mr-3 py-1 px-2 leading-tight focus:outline-none"
+                          type="text"
+                          placeholder="ENG"
+                          aria-label="Last Name"
+                          name="lastName"
+                          data-testid="lastNameInput"
+                          value={formData.lastName}
+                          onChange={handleInputChange}
+                          maxLength={50}
+                        />
+                      </div>
+                      <p className="text-gray-500 text-xs text-end italic">
+                        {formData.lastName.length}/50
+                      </p>
+                    </label>
+                  </div>
+                </div>
+              </div>
+              <div className="mt-4">
+                <div className="flex flex-wrap -mx-3 mb-6">
+                  <div className="w-full px-3 mb-6 md:mb-0">
+                    <label className="block text-gray-400 text-sm mb-2 text-left">
+                      Email
+                      <div className="flex items-center border-b border-gray-500 py-2">
+                        <input
+                          className="appearance-none bg-transparent border-none w-full text-gray-700 mr-3 py-1 px-2 leading-tight focus:outline-none"
+                          type="email"
+                          placeholder="idm.test@idm.com"
+                          aria-label="Email"
+                          name="email"
+                          value={formData.email}
+                          onChange={handleInputChange}
+                          maxLength={50}
+                        />
+                      </div>
+                    </label>
+                  </div>
+                </div>
+              </div>
+
+              <div className="mt-4">
+                <div className="flex flex-wrap -mx-3 mb-6">
+                  <div className="w-full px-3 mb-6 md:mb-0">
+                    <label className="block text-gray-400 text-sm mb-2 text-left">
+                      Phone number
+                      <div className="flex items-center border-b border-gray-500 py-2">
+                        <input
+                          className="appearance-none bg-transparent border-none w-full text-gray-700 mr-3 py-1 px-2 leading-tight focus:outline-none"
+                          type="text"
+                          placeholder="idm.test@idm.com"
+                          aria-label="Phone Number"
+                          name="phone"
+                          value={formData.phone}
+                          onChange={handleInputChange}
+                          maxLength={50}
+                        />
+                      </div>
+                      <p className="text-gray-500 text-xs text-start italic">
+                        Add Your country code first
+                      </p>
+                    </label>
+                  </div>
+                </div>
+              </div>
+
+              <div className="mt-4">
+                <div className="flex flex-wrap -mx-3 mb-6">
+                  <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+                    <label className="block text-gray-400 text-sm mb-2 text-left">
+                      Street Name
+                      <div className="flex items-center border-b border-gray-500 py-2">
+                        <input
+                          className="appearance-none bg-transparent border-none w-full text-gray-700 mr-3 py-1 px-2 leading-tight focus:outline-none"
+                          type="text"
+                          placeholder="IDM Street"
+                          aria-label="Street Name"
+                          name="addressStreet.streetName"
+                          value={formData.addressStreet.streetName}
+                          onChange={handleInputChange}
+                          maxLength={50}
+                        />
+                      </div>
+                    </label>
+                  </div>
+
+                  <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+                    <label className="block text-gray-400 text-sm mb-2 text-left">
+                      Street Number
+                      <div className="flex items-center border-b border-gray-500 py-2">
+                        <input
+                          className="appearance-none bg-transparent border-none w-full text-gray-700 mr-3 py-1 px-2 leading-tight focus:outline-none"
+                          type="text"
+                          aria-label="Street Number"
+                          placeholder="1234"
+                          name="addressStreet.streetNumber"
+                          value={formData.addressStreet.streetNumber}
+                          onChange={handleInputChange}
+                          maxLength={50}
+                        />
+                      </div>
+                    </label>
+                  </div>
+                </div>
+              </div>
+
+              <div className="mt-4">
+                <div className="flex flex-wrap -mx-3 mb-6">
+                  <div className="w-full md:w-1/3 px-3 mb-6 md:mb-0">
+                    <label className="block text-gray-400 text-sm mb-2 text-left">
+                      ZIP
+                      <div className="flex items-center border-b border-gray-500 py-2">
+                        <input
+                          className="appearance-none bg-transparent border-none w-full text-gray-700 mr-3 py-1 px-2 leading-tight focus:outline-none"
+                          type="text"
+                          placeholder="123553"
+                          aria-label="Zip Code"
+                          name="addressLocation.zipCode"
+                          value={formData.addressLocation.zipCode}
+                          onChange={handleInputChange}
+                          maxLength={7}
+                        />
+                      </div>
+                    </label>
+                  </div>
+
+                  <div className="w-full md:w-1/3 px-3 mb-6 md:mb-0">
+                    <label className="block text-gray-400 text-sm mb-2 text-left">
+                      State
+                      <div className="flex items-center border-b border-gray-500 py-2">
+                        <input
+                          className="appearance-none bg-transparent border-none w-full text-gray-700 mr-3 py-1 px-2 leading-tight focus:outline-none"
+                          type="text"
+                          placeholder="Ontario"
+                          aria-label="State"
+                          name="addressLocation.state"
+                          value={formData.addressLocation.state}
+                          onChange={handleInputChange}
+                        />
+                      </div>
+                      <p className="text-gray-500 text-xs italic">
+                        Autocomplete
+                      </p>
+                    </label>
+                  </div>
+                  <div className="w-full md:w-1/3 px-3 mb-6 md:mb-0">
+                    <label className="block text-gray-400 text-sm mb-2 text-left">
+                      City
+                      <div className="flex items-center border-b border-gray-500 py-2">
+                        <input
+                          className="appearance-none bg-transparent border-none w-full text-gray-700 mr-3 py-1 px-2 leading-tight focus:outline-none"
+                          type="text"
+                          placeholder="Oakville"
+                          aria-label="City"
+                          name="addressLocation.city"
+                          value={formData.addressLocation.city}
+                          onChange={handleInputChange}
+                        />
+                      </div>
+                    </label>
+                  </div>
+                </div>
+              </div>
+
+              <div className="mt-4">
+                <div className="flex flex-wrap -mx-3 mb-6">
+                  <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+                    <label className="block text-gray-400 text-sm mb-2 text-left">
+                      Extras
+                      <div className="flex items-center border-b border-gray-500 py-2">
+                        <select
+                          multiple
+                          className="appearance-none bg-transparent border-none w-full text-gray-700 mr-3 py-1 px-2 leading-tight focus:outline-none bg-gray-100 rounded-lg"
+                          aria-label="Extras"
+                          name="extras"
+                          value={selectedExtras}
+                          onChange={handleExtraChange}
+                        >
+                          {availableExtras.map((extra) => (
+                            <option key={extra} value={extra}>
+                              {extra}
+                            </option>
+                          ))}
+                        </select>
+                      </div>
+                    </label>
+                  </div>
+                </div>
+              </div>
+
               <div className="mt-4">
                 <div className="flex  flex-wrap -mx-3 mb-6">
                   <div className="w-full sm:w-1/2 md:w-1/4 lg:w-1/4 xl:w-1/4 px-4 mb-2">
                     <div className="inline-flex items-center">
                       <label
                         className="relative flex cursor-pointer items-center rounded-full p-3"
+                        htmlFor="Credit Card"
                         data-ripple-dark="true"
                       >
                         <input
                           name="payment"
                           type="radio"
+                          id="Credit Card"
                           value="Credit Card"
-                          data-testid="creditCardRadio"
                           checked={formData.payment === "Credit Card"}
                           onChange={handleInputChange}
                           className="before:content[''] peer relative h-5 w-5 cursor-pointer appearance-none rounded-full border border-blue-gray-200 text-pink-500 transition-all before:absolute before:top-2/4 before:left-2/4 before:block before:h-12 before:w-12 before:-translate-y-2/4 before:-translate-x-2/4 before:rounded-full before:bg-blue-gray-500 before:opacity-0 before:transition-opacity checked:border-pink-500 checked:before:bg-pink-500 hover:before:opacity-10"
@@ -281,15 +513,16 @@ const AddPage = (props: IReservation) => {
                     <div className="inline-flex items-center">
                       <label
                         className="relative flex cursor-pointer items-center rounded-full p-3"
+                        htmlFor="Paypal"
                         data-ripple-dark="true"
                       >
                         <input
                           name="payment"
                           type="radio"
                           value="Paypal"
+                          id="Paypal"
                           checked={formData.payment === "Paypal"}
                           onChange={handleInputChange}
-                          data-testid="paypalRadio"
                           className="before:content[''] peer relative h-5 w-5 cursor-pointer appearance-none rounded-full border border-blue-gray-200 text-pink-500 transition-all before:absolute before:top-2/4 before:left-2/4 before:block before:h-12 before:w-12 before:-translate-y-2/4 before:-translate-x-2/4 before:rounded-full before:bg-blue-gray-500 before:opacity-0 before:transition-opacity checked:border-pink-500 checked:before:bg-pink-500 hover:before:opacity-10"
                         />
                         <div className="pointer-events-none absolute top-2/4 left-2/4 -translate-y-2/4 -translate-x-2/4 text-pink-500 opacity-0 transition-opacity peer-checked:opacity-100">
@@ -310,7 +543,7 @@ const AddPage = (props: IReservation) => {
                       </label>
                       <label
                         className="mt-px cursor-pointer select-none  text-gray-700"
-                        htmlFor="paypal"
+                        htmlFor="Paypal"
                       >
                         Paypal
                       </label>
@@ -320,13 +553,14 @@ const AddPage = (props: IReservation) => {
                     <div className="inline-flex items-center">
                       <label
                         className="relative flex cursor-pointer items-center rounded-full p-3"
+                        htmlFor="Cash"
                         data-ripple-dark="true"
                       >
                         <input
                           name="payment"
                           type="radio"
                           value="Cash"
-                          data-testid="cashRadio"
+                          id="Cash"
                           checked={formData.payment === "Cash"}
                           onChange={handleInputChange}
                           className="before:content[''] peer relative h-5 w-5 cursor-pointer appearance-none rounded-full border border-blue-gray-200 text-pink-500 transition-all before:absolute before:top-2/4 before:left-2/4 before:block before:h-12 before:w-12 before:-translate-y-2/4 before:-translate-x-2/4 before:rounded-full before:bg-blue-gray-500 before:opacity-0 before:transition-opacity checked:border-pink-500 checked:before:bg-pink-500 hover:before:opacity-10"
@@ -349,7 +583,7 @@ const AddPage = (props: IReservation) => {
                       </label>
                       <label
                         className="mt-px cursor-pointer select-none  text-gray-700"
-                        htmlFor="cash"
+                        htmlFor="Cash"
                       >
                         Cash
                       </label>
@@ -360,15 +594,16 @@ const AddPage = (props: IReservation) => {
                     <div className="inline-flex items-center">
                       <label
                         className="relative flex cursor-pointer items-center rounded-full p-3"
+                        htmlFor="Bitcoin"
                         data-ripple-dark="true"
                       >
                         <input
                           name="payment"
                           type="radio"
+                          id="Bitcoin"
                           value="Bitcoin"
                           checked={formData.payment === "Bitcoin"}
                           onChange={handleInputChange}
-                          data-testid="bitcoinRadio"
                           className="before:content[''] peer relative h-5 w-5 cursor-pointer appearance-none rounded-full border border-blue-gray-200 text-pink-500 transition-all before:absolute before:top-2/4 before:left-2/4 before:block before:h-12 before:w-12 before:-translate-y-2/4 before:-translate-x-2/4 before:rounded-full before:bg-blue-gray-500 before:opacity-0 before:transition-opacity checked:border-pink-500 checked:before:bg-pink-500 hover:before:opacity-10"
                         />
                         <div className="pointer-events-none absolute top-2/4 left-2/4 -translate-y-2/4 -translate-x-2/4 text-pink-500 opacity-0 transition-opacity peer-checked:opacity-100">
@@ -389,7 +624,7 @@ const AddPage = (props: IReservation) => {
                       </label>
                       <label
                         className="mt-px cursor-pointer select-none  text-gray-700"
-                        htmlFor="bitcoin"
+                        htmlFor="Bitcoin"
                       >
                         Bitcoin
                       </label>
@@ -398,6 +633,69 @@ const AddPage = (props: IReservation) => {
                 </div>
               </div>
 
+              <div className="mt-4">
+                <div className="flex flex-wrap -mx-3 mb-6">
+                  <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+                    <label className="block text-gray-400 text-sm mb-2 text-left">
+                      Personal Note
+                      <div className="flex items-center border-b border-gray-500 py-2">
+                        <input
+                          className="appearance-none bg-transparent border-none w-full text-gray-700 mr-3 py-1 px-2 leading-tight focus:outline-none"
+                          type="text"
+                          placeholder="IDM Lab Test"
+                          aria-label="Personal Note"
+                          name="note"
+                          value={formData.note}
+                          onChange={handleInputChange}
+                        />
+                      </div>
+                    </label>
+                  </div>
+                </div>
+              </div>
+
+              <div className="mt-4">
+                <div className="flex flex-wrap -mx-3 mb-6">
+                  <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+                    <label
+                      htmlFor="tagsInput"
+                      className="block text-gray-400 text-sm mb-2 text-left"
+                    >
+                      Tags
+                      <div className="flex flex-wrap  items-center border-b border-gray-500 py-2">
+                        <ul className="flex flex-wrap">
+                          {tag.map((allTag, index) => (
+                            <div
+                              key={allTag}
+                              data-testid={`tag-${allTag}`}
+                              className="relative flex m-1 font-medium py-1 px-1  rounded-full text-gray-600 bg-gray-200 border border-gray-200"
+                            >
+                              <li className="flex gap-1">
+                                <span>{allTag}</span>
+                                <GrFormClose
+                                  data-testid="removeTags"
+                                  onClick={() => removeTags(index)}
+                                  className="text-white bg-gray-400 rounded-full w-4 h-4  cursor-pointer  hover:bg-gray-600  hover:text-white"
+                                />
+                              </li>
+                            </div>
+                          ))}
+                        </ul>
+                        <input
+                          type="text"
+                          value={newTag}
+                          name="tags"
+                          data-testid="tagsInput"
+                          className="appearance-none bg-transparent border-none w-full text-gray-700 mr-3 py-1 px-2 leading-tight focus:outline-none"
+                          placeholder="Press Space to add tags"
+                          onChange={(e) => setNewTag(e.target.value)}
+                          onKeyUp={(e) => addTags(e)}
+                        />
+                      </div>
+                    </label>
+                  </div>
+                </div>
+              </div>
               <div className="mt-4">
                 <div className="flex flex-wrap flex-col mb-3">
                   <div className="w-full  mb-6 md:mb-0">
@@ -409,7 +707,6 @@ const AddPage = (props: IReservation) => {
                           name="reminder"
                           checked={formData.reminder}
                           onChange={handleInputChange}
-                          data-testid="reminderCheckbox"
                         />
                         <div className="w-10 h-4 rounded-full shadow dark:bg-gray-600 peer-checked:bg-pink-500 peer-checked:bg-opacity-50"></div>
                         <div className="absolute left-0 w-6 h-6 rounded-full shadow -inset-y-1 peer-checked:right-0 peer-checked:left-auto bg-pink-500"></div>
@@ -430,7 +727,6 @@ const AddPage = (props: IReservation) => {
                           name="newsletter"
                           checked={formData.newsletter}
                           onChange={handleInputChange}
-                          data-testid="newsletterCheckbox"
                         />
                         <div className="w-10 h-4 rounded-full shadow dark:bg-gray-600 peer-checked:bg-pink-500 peer-checked:bg-opacity-50"></div>
                         <div className="absolute left-0 w-6 h-6 rounded-full shadow -inset-y-1 peer-checked:right-0 peer-checked:left-auto bg-pink-500"></div>
@@ -451,7 +747,6 @@ const AddPage = (props: IReservation) => {
                           name="confirm"
                           checked={formData.confirm}
                           onChange={handleInputChange}
-                          data-testid="confirmCheckbox"
                         />
                       </span>
                       <span>I confirm the information given above</span>
@@ -460,6 +755,7 @@ const AddPage = (props: IReservation) => {
                 </div>
               </div>
               <button
+                data-testid="submit-button"
                 type="submit"
                 className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full"
               >
