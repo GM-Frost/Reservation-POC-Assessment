@@ -1,4 +1,3 @@
-import "./App.css";
 import DetailPage from "./pages/DetailPage";
 import HomePage from "./pages/HomePage";
 
