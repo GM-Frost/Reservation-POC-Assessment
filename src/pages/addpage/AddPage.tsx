@@ -4,6 +4,7 @@ import { AiOutlineArrowLeft } from "react-icons/ai";
 import { GrFormClose } from "react-icons/gr";
 import { IReservation, initialReservation } from "./AddPage.types";
 import axios from "axios";
+
 const AddPage = (props: IReservation) => {
   const [formData, setFormData] = useState<IReservation>(initialReservation);
   const [selectedExtras, setSelectedExtras] = useState<string[]>([]);
@@ -40,13 +41,6 @@ const AddPage = (props: IReservation) => {
           [name.substring("stay.".length)]: value,
         },
       });
-    } else if (name === "tags") {
-      setFormData({
-        ...formData,
-        tags: {
-          ...formData.tags,
-        },
-      });
     } else if (name.startsWith("room.")) {
       setFormData({
         ...formData,
@@ -55,6 +49,24 @@ const AddPage = (props: IReservation) => {
           [name.substring("room.".length)]: value,
         },
       });
+    } else if (name.startsWith("addressStreet.")) {
+      setFormData({
+        ...formData,
+        addressStreet: {
+          ...formData.addressStreet,
+          [name.substring("addressStreet.".length)]: value,
+        },
+      });
+    } else if (name.startsWith("addressLocation.")) {
+      setFormData({
+        ...formData,
+        addressLocation: {
+          ...formData.addressLocation,
+          [name.substring("addressLocation.".length)]: value,
+        },
+      });
+    } else if (name === "tags") {
+      setNewTag(value);
     } else if (type === "checkbox") {
       setFormData({
         ...formData,
@@ -89,8 +101,9 @@ const AddPage = (props: IReservation) => {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
-      const response = await axios.post("http://localhost:3000/reservations", {
+      const response = await axios.post("http://localhost:8000/reservations", {
         ...formData,
+        tags: tag,
       });
       console.log("Reservation created:", response.data);
       setFormData(initialReservation);
