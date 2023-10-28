@@ -1,4 +1,4 @@
-import { screen, render, fireEvent, act } from "@testing-library/react";
+import { screen, render, fireEvent } from "@testing-library/react";
 import AddPage from "./AddPage";
 import { MemoryRouter } from "react-router-dom";
 import { initialReservation } from "./AddPage.types";
@@ -53,6 +53,7 @@ describe("AddPage", () => {
   });
 
   test("should handle form submission", async () => {
+    userEvent.setup();
     render(
       <MemoryRouter>
         <AddPage {...initialReservation} />
@@ -61,19 +62,103 @@ describe("AddPage", () => {
 
     const nameInput = screen.getByLabelText("First Name");
     const arrivalDateInput = screen.getByLabelText("Date of Arrival");
+    const selectInput = screen.getByLabelText("Room Size");
     const submitButton = screen.getByRole("button", { name: "Submit" });
 
     // Setting values for the inputs
     userEvent.type(nameInput, "John");
     userEvent.type(arrivalDateInput, "2023-10-30");
+    userEvent.selectOptions(selectInput, "Standard Room");
 
     // Mock the axios
     (axios.post as jest.Mock).mockResolvedValue({ data: "Some response data" });
 
-    // Simulate form submission
     fireEvent.click(submitButton);
 
     expect(nameInput).toHaveValue("");
     expect(arrivalDateInput).toHaveValue("");
+    expect(selectInput).toHaveValue("standard-room");
+  });
+  test("should handle tag input and add tags", () => {
+    render(
+      <MemoryRouter>
+        <AddPage {...initialReservation} />
+      </MemoryRouter>
+    );
+
+    const tagInput = screen.getByTestId("tagsInput");
+
+    expect(tagInput).toHaveValue("");
+
+    // Simulate entering a new tag and pressing space
+    fireEvent.change(tagInput, { target: { value: "newTag" } });
+    fireEvent.keyUp(tagInput, { key: " " });
+
+    // Check that the new tag is added
+    const tags = screen.getAllByTestId((id) => id.startsWith("tag-"));
+    expect(tags).toHaveLength(3); // Initial tags + 1 new tag
+
+    const removeButtons = screen.getAllByTestId((id) =>
+      id.startsWith("removeTag-")
+    );
+    fireEvent.click(removeButtons[0]);
+
+    // Check that the first tag is removed
+    const remainingTags = screen.getAllByTestId((id) => id.startsWith("tag-"));
+    expect(remainingTags).toHaveLength(2); // Two tags remaining
+  });
+
+  test("should handle radio button selection", () => {
+    render(
+      <MemoryRouter>
+        <AddPage {...initialReservation} />
+      </MemoryRouter>
+    );
+
+    const creditCardRadio = screen.getByTestId("creditCardRadio");
+
+    fireEvent.click(creditCardRadio);
+
+    expect(creditCardRadio).toBeChecked();
+
+    const creditCardLabel = screen.getByText("Credit Card");
+    expect(creditCardLabel).toBeInTheDocument();
+  });
+
+  test("should handle checkbox selection", () => {
+    render(
+      <MemoryRouter>
+        <AddPage {...initialReservation} />
+      </MemoryRouter>
+    );
+
+    const reminderCheckbox = screen.getByTestId("reminderCheckbox");
+
+    fireEvent.click(reminderCheckbox);
+
+    expect(reminderCheckbox).toBeChecked();
+
+    const reminderLabel = screen.getByText("Send me a reminder");
+    expect(reminderLabel).toBeInTheDocument();
+  });
+
+  test("should handle confirm checkbox selection", () => {
+    render(
+      <MemoryRouter>
+        <AddPage {...initialReservation} />
+      </MemoryRouter>
+    );
+
+    const confirmCheckbox = screen.getByTestId("confirmCheckbox");
+
+    fireEvent.click(confirmCheckbox);
+
+    // Check if the confirm checkbox is checked
+    expect(confirmCheckbox).toBeChecked();
+
+    const confirmLabel = screen.getByText(
+      "I confirm the information given above"
+    );
+    expect(confirmLabel).toBeInTheDocument();
   });
 });

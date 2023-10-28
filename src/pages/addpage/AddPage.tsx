@@ -1,21 +1,81 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { AiOutlineArrowLeft } from "react-icons/ai";
+import { GrFormClose } from "react-icons/gr";
 import { IReservation, initialReservation } from "./AddPage.types";
 import axios from "axios";
 const AddPage = (props: IReservation) => {
   const [formData, setFormData] = useState<IReservation>(initialReservation);
+  const [selectedExtras, setSelectedExtras] = useState<string[]>([]);
+
+  //Local Storage for Tags
+  const [tag, setTag] = useState<string[]>(["hotel", "booking"]);
+  const [newTag, setNewTag] = useState<string>("");
+
+  //TAGS
+
+  const addTags = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (event.key === " " || event.key === "Spacebar") {
+      event.preventDefault();
+      if (newTag.trim() !== "") {
+        setTag([...tag, newTag.trim()]);
+        setNewTag("");
+      }
+    }
+  };
+
+  const removeTags = (tagToRemove: number) => {
+    const updatedTags = tag.filter((_, i) => i !== tagToRemove);
+    setTag(updatedTags);
+  };
 
   //Handle Input Change
-
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
+    const { name, value, type, checked } = e.target;
     if (name.startsWith("stay.")) {
       setFormData({
         ...formData,
         stay: {
           ...formData.stay,
           [name.substring("stay.".length)]: value,
+        },
+      });
+    } else if (name === "tags") {
+      setFormData({
+        ...formData,
+        tags: {
+          ...formData.tags,
+        },
+      });
+    } else if (name.startsWith("room.")) {
+      setFormData({
+        ...formData,
+        room: {
+          ...formData.room,
+          [name.substring("room.".length)]: value,
+        },
+      });
+    } else if (type === "checkbox") {
+      setFormData({
+        ...formData,
+        [name]: checked,
+      });
+    } else {
+      setFormData({
+        ...formData,
+        [name]: value,
+      });
+    }
+  };
+
+  const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const { name, value } = e.target;
+    if (name.startsWith("room.")) {
+      setFormData({
+        ...formData,
+        room: {
+          ...formData.room,
+          [name.substring("room.".length)]: value,
         },
       });
     } else {
@@ -37,6 +97,30 @@ const AddPage = (props: IReservation) => {
     } catch (error) {
       console.error("Error creating reservation:", error);
     }
+  };
+
+  const availableExtras = [
+    "extraBreakfast",
+    "extraTV",
+    "extraWiFi",
+    "extraParking",
+    "extraBalcony",
+  ];
+  const handleExtraChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const options = e.target.options;
+    const selectedOptions = [];
+
+    for (let i = 0; i < options.length; i++) {
+      if (options[i].selected) {
+        selectedOptions.push(options[i].value);
+      }
+    }
+
+    setSelectedExtras(selectedOptions);
+    setFormData({
+      ...formData,
+      extras: selectedOptions,
+    });
   };
 
   return (
@@ -79,6 +163,302 @@ const AddPage = (props: IReservation) => {
                 onChange={handleInputChange}
               />
 
+              <label htmlFor="arrivalDate">Arrival Date</label>
+              <select
+                className="appearance-none bg-transparent border-none w-full text-gray-700 mr-3 py-1 px-2 leading-tight focus:outline-none"
+                aria-label="Room Size"
+                name="room.roomSize"
+                value={formData.room.roomSize}
+                onChange={handleSelectChange}
+              >
+                <option value="standard-room">Standard Room</option>
+                <option value="deluxe-room">Deluxe Room</option>
+                <option value="family-suite">Family Suite</option>
+                <option value="honeymoon-suite">Honeymoon Suite</option>
+                <option value="business-suite">Business Suite</option>
+                <option value="presidential-suite">Presidential Suite</option>
+              </select>
+
+              <label className="block text-gray-400 text-sm mb-2 text-left">
+                Extras
+                <div className="flex items-center border-b border-gray-500 py-2">
+                  <select
+                    multiple
+                    className="appearance-none bg-transparent border-none w-full text-gray-700 mr-3 py-1 px-2 leading-tight focus:outline-none bg-gray-100 rounded-lg"
+                    aria-label="Extras"
+                    name="extras"
+                    value={selectedExtras}
+                    onChange={handleExtraChange}
+                  >
+                    {availableExtras.map((extra) => (
+                      <option key={extra} value={extra}>
+                        {extra}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+              </label>
+
+              <label
+                htmlFor="tagsInput"
+                className="block text-gray-400 text-sm mb-2 text-left"
+              >
+                Tags
+                <div className="flex flex-wrap  items-center border-b border-gray-500 py-2">
+                  <ul className="flex flex-wrap">
+                    {tag.map((allTag, index) => (
+                      <div
+                        key={allTag}
+                        data-testid={`tag-${index}`}
+                        className="tag relative flex m-1 font-medium py-1 px-1  rounded-full text-gray-600 bg-gray-200 border border-gray-200"
+                      >
+                        <li className="flex gap-1">
+                          <span>{allTag}</span>
+                          <GrFormClose
+                            data-testid={`removeTag-${index}`}
+                            onClick={() => removeTags(index)}
+                            className="text-white bg-gray-400 rounded-full w-4 h-4  cursor-pointer  hover:bg-gray-600  hover:text-white"
+                          />
+                        </li>
+                      </div>
+                    ))}
+                  </ul>
+                  <input
+                    type="text"
+                    value={newTag}
+                    id="tagsInput"
+                    name="tags"
+                    data-testid="tagsInput"
+                    className="appearance-none bg-transparent border-none w-full text-gray-700 mr-3 py-1 px-2 leading-tight focus:outline-none"
+                    placeholder="Press Space to add tags"
+                    onChange={(e) => setNewTag(e.target.value)}
+                    onKeyUp={(e) => addTags(e)}
+                  />
+                </div>
+              </label>
+              <div className="mt-4">
+                <div className="flex  flex-wrap -mx-3 mb-6">
+                  <div className="w-full sm:w-1/2 md:w-1/4 lg:w-1/4 xl:w-1/4 px-4 mb-2">
+                    <div className="inline-flex items-center">
+                      <label
+                        className="relative flex cursor-pointer items-center rounded-full p-3"
+                        data-ripple-dark="true"
+                      >
+                        <input
+                          name="payment"
+                          type="radio"
+                          value="Credit Card"
+                          data-testid="creditCardRadio"
+                          checked={formData.payment === "Credit Card"}
+                          onChange={handleInputChange}
+                          className="before:content[''] peer relative h-5 w-5 cursor-pointer appearance-none rounded-full border border-blue-gray-200 text-pink-500 transition-all before:absolute before:top-2/4 before:left-2/4 before:block before:h-12 before:w-12 before:-translate-y-2/4 before:-translate-x-2/4 before:rounded-full before:bg-blue-gray-500 before:opacity-0 before:transition-opacity checked:border-pink-500 checked:before:bg-pink-500 hover:before:opacity-10"
+                        />
+                        <div className="pointer-events-none absolute top-2/4 left-2/4 -translate-y-2/4 -translate-x-2/4 text-pink-500 opacity-0 transition-opacity peer-checked:opacity-100">
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            className="h-3.5 w-3.5"
+                            viewBox="0 0 16 16"
+                            fill="currentColor"
+                          >
+                            <circle
+                              data-name="ellipse"
+                              cx="8"
+                              cy="8"
+                              r="8"
+                            ></circle>
+                          </svg>
+                        </div>
+                      </label>
+                      <label
+                        className="mt-px cursor-pointer select-none  text-gray-700"
+                        htmlFor="Credit Card"
+                      >
+                        Credit Card
+                      </label>
+                    </div>
+                  </div>
+                  <div className="w-full sm:w-1/2 md:w-1/4 lg:w-1/4 xl:w-1/4 px-4 mb-2">
+                    <div className="inline-flex items-center">
+                      <label
+                        className="relative flex cursor-pointer items-center rounded-full p-3"
+                        data-ripple-dark="true"
+                      >
+                        <input
+                          name="payment"
+                          type="radio"
+                          value="Paypal"
+                          checked={formData.payment === "Paypal"}
+                          onChange={handleInputChange}
+                          data-testid="paypalRadio"
+                          className="before:content[''] peer relative h-5 w-5 cursor-pointer appearance-none rounded-full border border-blue-gray-200 text-pink-500 transition-all before:absolute before:top-2/4 before:left-2/4 before:block before:h-12 before:w-12 before:-translate-y-2/4 before:-translate-x-2/4 before:rounded-full before:bg-blue-gray-500 before:opacity-0 before:transition-opacity checked:border-pink-500 checked:before:bg-pink-500 hover:before:opacity-10"
+                        />
+                        <div className="pointer-events-none absolute top-2/4 left-2/4 -translate-y-2/4 -translate-x-2/4 text-pink-500 opacity-0 transition-opacity peer-checked:opacity-100">
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            className="h-3.5 w-3.5"
+                            viewBox="0 0 16 16"
+                            fill="currentColor"
+                          >
+                            <circle
+                              data-name="ellipse"
+                              cx="8"
+                              cy="8"
+                              r="8"
+                            ></circle>
+                          </svg>
+                        </div>
+                      </label>
+                      <label
+                        className="mt-px cursor-pointer select-none  text-gray-700"
+                        htmlFor="paypal"
+                      >
+                        Paypal
+                      </label>
+                    </div>
+                  </div>
+                  <div className="w-full sm:w-1/2 md:w-1/4 lg:w-1/4 xl:w-1/4 px-4 mb-2">
+                    <div className="inline-flex items-center">
+                      <label
+                        className="relative flex cursor-pointer items-center rounded-full p-3"
+                        data-ripple-dark="true"
+                      >
+                        <input
+                          name="payment"
+                          type="radio"
+                          value="Cash"
+                          data-testid="cashRadio"
+                          checked={formData.payment === "Cash"}
+                          onChange={handleInputChange}
+                          className="before:content[''] peer relative h-5 w-5 cursor-pointer appearance-none rounded-full border border-blue-gray-200 text-pink-500 transition-all before:absolute before:top-2/4 before:left-2/4 before:block before:h-12 before:w-12 before:-translate-y-2/4 before:-translate-x-2/4 before:rounded-full before:bg-blue-gray-500 before:opacity-0 before:transition-opacity checked:border-pink-500 checked:before:bg-pink-500 hover:before:opacity-10"
+                        />
+                        <div className="pointer-events-none absolute top-2/4 left-2/4 -translate-y-2/4 -translate-x-2/4 text-pink-500 opacity-0 transition-opacity peer-checked:opacity-100">
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            className="h-3.5 w-3.5"
+                            viewBox="0 0 16 16"
+                            fill="currentColor"
+                          >
+                            <circle
+                              data-name="ellipse"
+                              cx="8"
+                              cy="8"
+                              r="8"
+                            ></circle>
+                          </svg>
+                        </div>
+                      </label>
+                      <label
+                        className="mt-px cursor-pointer select-none  text-gray-700"
+                        htmlFor="cash"
+                      >
+                        Cash
+                      </label>
+                    </div>
+                  </div>
+
+                  <div className="w-full sm:w-1/2 md:w-1/4 lg:w-1/4 xl:w-1/4 px-4 mb-2">
+                    <div className="inline-flex items-center">
+                      <label
+                        className="relative flex cursor-pointer items-center rounded-full p-3"
+                        data-ripple-dark="true"
+                      >
+                        <input
+                          name="payment"
+                          type="radio"
+                          value="Bitcoin"
+                          checked={formData.payment === "Bitcoin"}
+                          onChange={handleInputChange}
+                          data-testid="bitcoinRadio"
+                          className="before:content[''] peer relative h-5 w-5 cursor-pointer appearance-none rounded-full border border-blue-gray-200 text-pink-500 transition-all before:absolute before:top-2/4 before:left-2/4 before:block before:h-12 before:w-12 before:-translate-y-2/4 before:-translate-x-2/4 before:rounded-full before:bg-blue-gray-500 before:opacity-0 before:transition-opacity checked:border-pink-500 checked:before:bg-pink-500 hover:before:opacity-10"
+                        />
+                        <div className="pointer-events-none absolute top-2/4 left-2/4 -translate-y-2/4 -translate-x-2/4 text-pink-500 opacity-0 transition-opacity peer-checked:opacity-100">
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            className="h-3.5 w-3.5"
+                            viewBox="0 0 16 16"
+                            fill="currentColor"
+                          >
+                            <circle
+                              data-name="ellipse"
+                              cx="8"
+                              cy="8"
+                              r="8"
+                            ></circle>
+                          </svg>
+                        </div>
+                      </label>
+                      <label
+                        className="mt-px cursor-pointer select-none  text-gray-700"
+                        htmlFor="bitcoin"
+                      >
+                        Bitcoin
+                      </label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div className="mt-4">
+                <div className="flex flex-wrap flex-col mb-3">
+                  <div className="w-full  mb-6 md:mb-0">
+                    <label className="inline-flex items-center space-x-4 cursor-pointer text-gray-600">
+                      <span className="relative">
+                        <input
+                          type="checkbox"
+                          className="hidden peer"
+                          name="reminder"
+                          checked={formData.reminder}
+                          onChange={handleInputChange}
+                          data-testid="reminderCheckbox"
+                        />
+                        <div className="w-10 h-4 rounded-full shadow dark:bg-gray-600 peer-checked:bg-pink-500 peer-checked:bg-opacity-50"></div>
+                        <div className="absolute left-0 w-6 h-6 rounded-full shadow -inset-y-1 peer-checked:right-0 peer-checked:left-auto bg-pink-500"></div>
+                      </span>
+                      <span>Send me a reminder</span>
+                    </label>
+                  </div>
+                </div>
+              </div>
+              <div className="mt-4">
+                <div className="flex flex-wrap flex-col mb-6">
+                  <div className="w-full  mb-6 md:mb-0">
+                    <label className="inline-flex items-center space-x-4 cursor-pointer text-gray-600">
+                      <span className="relative">
+                        <input
+                          type="checkbox"
+                          className="hidden peer"
+                          name="newsletter"
+                          checked={formData.newsletter}
+                          onChange={handleInputChange}
+                          data-testid="newsletterCheckbox"
+                        />
+                        <div className="w-10 h-4 rounded-full shadow dark:bg-gray-600 peer-checked:bg-pink-500 peer-checked:bg-opacity-50"></div>
+                        <div className="absolute left-0 w-6 h-6 rounded-full shadow -inset-y-1 peer-checked:right-0 peer-checked:left-auto bg-pink-500"></div>
+                      </span>
+                      <span>Subscribe to newsletter</span>
+                    </label>
+                  </div>
+                </div>
+              </div>
+
+              <div className="mt-4">
+                <div className="flex flex-wrap flex-col mb-6">
+                  <div className="w-full mb-6 md:mb-0">
+                    <label className="inline-flex items-center space-x-4 cursor-pointer text-gray-600">
+                      <span className="relative">
+                        <input
+                          type="checkbox"
+                          name="confirm"
+                          checked={formData.confirm}
+                          onChange={handleInputChange}
+                          data-testid="confirmCheckbox"
+                        />
+                      </span>
+                      <span>I confirm the information given above</span>
+                    </label>
+                  </div>
+                </div>
+              </div>
               <button
                 type="submit"
                 className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full"
