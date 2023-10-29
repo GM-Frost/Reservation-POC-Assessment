@@ -1,5 +1,5 @@
 import React from "react";
-import { act, render, screen, waitFor } from "@testing-library/react";
+import { render, screen, waitFor } from "@testing-library/react";
 import Datatable from "./Datatable";
 import axios from "axios";
 import MockAdapter from "axios-mock-adapter"; // Import axios-mock-adapter
@@ -85,7 +85,7 @@ describe("Datatable component", () => {
   });
 
   test("renders data fetched from the API", async () => {
-    render(<Datatable />);
+    render(<Datatable search="" sort="firstName" />);
 
     // Wait for the API call and data to be loaded
     await waitFor(() => {
@@ -115,12 +115,12 @@ describe("Datatable component", () => {
   };
 
   test("clicks the Edit button", async () => {
-    render(<Datatable />);
+    render(<Datatable search="" sort="firstName" />);
     await waitFor(clickEditButton);
   });
 
   test("clicks the Delete button", async () => {
-    render(<Datatable />);
+    render(<Datatable search="" sort="firstName" />);
     await waitFor(clickDeleteButton);
   });
 });
