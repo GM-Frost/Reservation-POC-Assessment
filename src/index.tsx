@@ -4,9 +4,10 @@ import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import DetailPage from "./pages/detailspage/DetailPage";
+
 import AddPage from "./pages/addpage/AddPage";
 import { initialReservation } from "./pages/addpage/AddPage.types";
+import EditPage from "./pages/editpage/EditPage";
 
 //creating Router
 const router = createBrowserRouter([
@@ -14,13 +15,9 @@ const router = createBrowserRouter([
     path: "/",
     element: <App />,
   },
-  // {
-  //   path: "/update/:id",
-  //   element: <EditData />,
-  // },
   {
-    path: "/details",
-    element: <DetailPage />,
+    path: "/update/:id",
+    element: <EditPage {...initialReservation} />,
   },
   {
     path: "/add",

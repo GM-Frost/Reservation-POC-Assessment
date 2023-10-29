@@ -48,7 +48,7 @@ const AddPage = (props: IReservation) => {
           [name.substring("stay.".length)]: value,
         },
       });
-    } else if (name.startsWith("room.")) {
+    } else if (name.startsWith("room.size")) {
       setFormData({
         ...formData,
         room: {
@@ -56,6 +56,17 @@ const AddPage = (props: IReservation) => {
           [name.substring("room.".length)]: value,
         },
       });
+    } else if (name.startsWith("room.roomQuantity")) {
+      const quantity = parseInt(value, 10);
+      if (!isNaN(quantity) && quantity >= 1 && quantity <= 5) {
+        setFormData({
+          ...formData,
+          room: {
+            ...formData.room,
+            roomQuantity: quantity,
+          },
+        });
+      }
     } else if (name.startsWith("addressStreet.")) {
       setFormData({
         ...formData,
