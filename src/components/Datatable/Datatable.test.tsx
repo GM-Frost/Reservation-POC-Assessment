@@ -4,6 +4,7 @@ import Datatable from "./Datatable";
 import axios from "axios";
 import MockAdapter from "axios-mock-adapter"; // Import axios-mock-adapter
 import userEvent from "@testing-library/user-event";
+import { BrowserRouter } from "react-router-dom";
 // Sample data for testing
 const mockData = [
   {
@@ -85,7 +86,11 @@ describe("Datatable component", () => {
   });
 
   test("renders data fetched from the API", async () => {
-    render(<Datatable search="" sort="firstName" />);
+    render(
+      <BrowserRouter>
+        <Datatable search="" sort="firstName" />
+      </BrowserRouter>
+    );
 
     // Wait for the API call and data to be loaded
     await waitFor(() => {
@@ -115,12 +120,20 @@ describe("Datatable component", () => {
   };
 
   test("clicks the Edit button", async () => {
-    render(<Datatable search="" sort="firstName" />);
+    render(
+      <BrowserRouter>
+        <Datatable search="" sort="firstName" />
+      </BrowserRouter>
+    );
     await waitFor(clickEditButton);
   });
 
   test("clicks the Delete button", async () => {
-    render(<Datatable search="" sort="firstName" />);
+    render(
+      <BrowserRouter>
+        <Datatable search="" sort="firstName" />
+      </BrowserRouter>
+    );
     await waitFor(clickDeleteButton);
   });
 });

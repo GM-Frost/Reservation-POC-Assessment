@@ -4,6 +4,7 @@ import { MoonLoader } from "react-spinners";
 import { FaEdit } from "react-icons/fa";
 import { IoTrashBin } from "react-icons/io5";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 interface DataTableProps {
   search: string;
@@ -23,6 +24,8 @@ const Datatable: React.FC<DataTableProps> = ({ search, sort }) => {
   const [loading, setLoading] = useState(true);
   const [columns, setColumns] = useState<string[]>([]);
   const [records, setRecords] = useState<IRecord[]>([]);
+
+  const navigate = useNavigate();
 
   //Observable
   const [refreshData, setRefreshData] = useState<boolean>(false);
@@ -227,7 +230,7 @@ const Datatable: React.FC<DataTableProps> = ({ search, sort }) => {
                                     <button
                                       onClick={(e) => {
                                         e.stopPropagation();
-                                        //   navigate(`/update/${id}`);
+                                        navigate(`/update/${id}`);
                                       }}
                                       data-testid="edit-button"
                                       className="bg-cyan-600 p-2 rounded-lg text-white   items-center hover:bg-cyan-700 flex justify-center gap-2"
