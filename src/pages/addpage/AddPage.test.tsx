@@ -2,8 +2,8 @@ import { screen, render, waitFor } from "@testing-library/react";
 import AddPage from "./AddPage";
 import { MemoryRouter } from "react-router-dom";
 import { initialReservation } from "./AddPage.types";
-import userEvent from "@testing-library/user-event";
 import { default as axios } from "axios";
+import userEvent from "@testing-library/user-event";
 
 jest.mock("axios");
 
@@ -209,7 +209,6 @@ describe("AddPage", () => {
 
     expect(confirmCheckbox).toBeInTheDocument();
     expect(confirmCheckbox).not.toBeChecked();
-
     userEvent.click(confirmCheckbox);
   });
 

@@ -1,4 +1,5 @@
 import AddButton from "../components/Addbutton/AddButton";
+import Datatable from "../components/Datatable/Datatable";
 
 type Props = {};
 
@@ -10,6 +11,9 @@ const HomePage = (props: Props) => {
       </h1>
       <div className="flex justify-end mr-3 flex-wrap">
         <AddButton />
+      </div>
+      <div className="justify-center flex-wrap w-full">
+        <Datatable />
       </div>
     </>
   );
