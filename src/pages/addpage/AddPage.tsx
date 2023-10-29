@@ -3,12 +3,19 @@ import { Link } from "react-router-dom";
 import { AiOutlineArrowLeft } from "react-icons/ai";
 import { GrFormClose } from "react-icons/gr";
 import { IReservation, initialReservation } from "./AddPage.types";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
 
 const AddPage = (props: IReservation) => {
   const [formData, setFormData] = useState<IReservation>(initialReservation);
   const [selectedExtras, setSelectedExtras] = useState<string[]>([]);
 
+  //Validation
+  const [emptyError, setEmptyError] = useState<boolean>(false);
+  const [selectError, setSelectError] = useState<boolean>(false);
+
+  const [errorMessage, setErrorMessage] = useState<string>("");
   //Local Storage for Tags
   const [tag, setTag] = useState<string[]>(["hotel", "booking"]);
   const [newTag, setNewTag] = useState<string>("");
@@ -100,15 +107,55 @@ const AddPage = (props: IReservation) => {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    try {
-      const response = await axios.post("http://localhost:8000/reservations", {
-        ...formData,
-        tags: tag,
-      });
-      console.log("Reservation created:", response.data);
-      setFormData(initialReservation);
-    } catch (error) {
-      console.error("Error creating reservation:", error);
+    if (
+      formData.stay.arrivalDate === "" ||
+      formData.stay.departureDate === "" ||
+      formData.room.roomSize === undefined ||
+      formData.firstName === "" ||
+      formData.lastName === "" ||
+      formData.email === "" ||
+      formData.phone === "" ||
+      formData.addressStreet.streetName === "" ||
+      formData.addressStreet.streetNumber === "" ||
+      formData.addressLocation.zipCode === "" ||
+      formData.addressLocation.state === "" ||
+      formData.addressLocation.city === "" ||
+      formData.note === ""
+    ) {
+      setEmptyError(true);
+      setErrorMessage("Please Input all fields");
+      toast.error("Please Input all fields");
+      return;
+    } else if (!formData.payment) {
+      setSelectError(true);
+      setErrorMessage("Please Select a Payment Method");
+      toast.error("Please select a payment method");
+      return;
+    } else if (!formData.confirm) {
+      setSelectError(true);
+      setErrorMessage("Please Confirm this information is true and valid");
+      toast.error("Please Confirm the information");
+      return;
+    } else {
+      try {
+        const response = await axios.post(
+          "http://localhost:8000/reservations",
+          {
+            ...formData,
+            tags: tag,
+          }
+        );
+        console.log("Reservation created:", response.data);
+        toast.success("Reservation Created!");
+        setFormData(initialReservation);
+        setErrorMessage("");
+        setEmptyError(false);
+        setSelectError(false);
+        setTag(["hotel", "booking"]);
+      } catch (error) {
+        console.error("Error creating reservation:", error);
+        toast.error("Error creating reservation");
+      }
     }
   };
 
@@ -138,6 +185,7 @@ const AddPage = (props: IReservation) => {
 
   return (
     <>
+      <ToastContainer />
       <div>
         <div className="flex justify-center items-center  min-h-screen">
           <div className="bg-white p-8 rounded-md shadow-lg w-[80%]">
@@ -152,6 +200,11 @@ const AddPage = (props: IReservation) => {
               Add Reservation
             </h2>
             <hr />
+            <div className="flex flex-wrap justify-center items-center">
+              {(emptyError || selectError) && (
+                <p className="text-red-600 ">{errorMessage}</p>
+              )}
+            </div>
             <form
               data-testid="reservation-form"
               onSubmit={handleSubmit}
@@ -178,7 +231,7 @@ const AddPage = (props: IReservation) => {
                       </div>
                     </label>
                   </div>
-                  <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+                  <div className={`w-full md:w-1/2 px-3 mb-6 md:mb-0 `}>
                     <label className="block text-gray-400 text-sm mb-2 text-left">
                       Date of Departure
                       <div className="flex items-center border-b border-gray-500 py-2">
@@ -767,13 +820,15 @@ const AddPage = (props: IReservation) => {
                   </div>
                 </div>
               </div>
-              <button
-                data-testid="submit-button"
-                type="submit"
-                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full"
-              >
-                Submit
-              </button>
+              <div className="flex items-center justify-center flex-wrap">
+                <button
+                  data-testid="submit-button"
+                  type="submit"
+                  className="w-32  bg-pink-600 hover:bg-pink-800 p-2 m-2 rounded-md text-white font-bold"
+                >
+                  Submit
+                </button>
+              </div>
             </form>
           </div>
         </div>
