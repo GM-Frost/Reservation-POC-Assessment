@@ -2,32 +2,36 @@
   "Reservations": [
     {
       "stay": {
-        "arrivalDate": "2023-10-25",
-        "departureDate": "2023-10-25"
+        "arrivalDate": "2023-10-27",
+        "departureDate": "2023-10-01"
       },
       "room": {
         "roomSize": "Standard Room",
-        "roomQuantity": 1
+        "roomQuantity": 4
       },
       "firstName": "Nayan",
       "lastName": "Bastola",
       "email": "nayanbastola111@gmail.com",
       "phone": "+9114379934636",
       "addressStreet": {
-        "streetName": "asdf",
-        "streetNumber": "asdf"
+        "streetName": "New Street",
+        "streetNumber": "1234"
       },
       "addressLocation": {
         "zipCode": "M3C 0C1",
         "state": "Ontario",
         "city": "Ontario"
       },
-      "extras": [],
+      "extras": [
+        "extraBreakfast",
+        "extraWiFi"
+      ],
       "payment": "Paypal",
       "note": "lab test",
       "tags": [
         "hotel",
-        "booking"
+        "booking",
+        "asdf"
       ],
       "reminder": false,
       "newsletter": false,

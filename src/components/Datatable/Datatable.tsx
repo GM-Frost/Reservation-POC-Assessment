@@ -5,6 +5,7 @@ import { FaEdit } from "react-icons/fa";
 import { IoTrashBin } from "react-icons/io5";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import DetailModal from "../Details/DetailModal";
 
 interface DataTableProps {
   search: string;
@@ -45,6 +46,18 @@ const Datatable: React.FC<DataTableProps> = ({ search, sort }) => {
         console.error("Error deleting data:", error);
       }
     }
+  };
+  //OPEN DETAIL MODAL
+  const [recordId, setRecordId] = useState<string>("");
+  const [detailsModelOpen, setDetailsModelOpen] = useState<boolean>(false);
+
+  const openDetailModal = (id: string) => {
+    setRecordId(id);
+    setDetailsModelOpen(true);
+  };
+
+  const closeDetailModal = () => {
+    setDetailsModelOpen(false);
   };
 
   // USEEffect Hook to fetch data
@@ -104,7 +117,9 @@ const Datatable: React.FC<DataTableProps> = ({ search, sort }) => {
                 <tbody className="divide-y  divide-gray-200 dark:divide-gray-700">
                   <>
                     {records.length === 0 ? (
-                      <p className="py-5 ">"No Records Found"</p>
+                      <p className="py-5 flex justify-center items-center text-center">
+                        "No Records Found"
+                      </p>
                     ) : (
                       <>
                         {records
@@ -175,7 +190,7 @@ const Datatable: React.FC<DataTableProps> = ({ search, sort }) => {
                                 <tr
                                   key={data.id}
                                   className="hover:bg-gray-100 cursor-pointer"
-                                  // onClick={() => openDetailModal(id)}
+                                  onClick={() => openDetailModal(id)}
                                 >
                                   <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800 dark:text-gray-600">
                                     {formattedStartDate} - {formattedEndDate}
@@ -262,6 +277,11 @@ const Datatable: React.FC<DataTableProps> = ({ search, sort }) => {
           </>
         )}
       </div>
+      <DetailModal
+        detailId={recordId}
+        isOpen={detailsModelOpen}
+        onClose={closeDetailModal}
+      />
     </>
   );
 };

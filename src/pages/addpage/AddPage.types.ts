@@ -27,6 +27,7 @@ export interface IReservation {
   reminder: boolean;
   newsletter: boolean;
   confirm: boolean;
+  id: string;
 }
 
 export const initialReservation: IReservation = {
@@ -58,4 +59,5 @@ export const initialReservation: IReservation = {
   reminder: false,
   newsletter: false,
   confirm: false,
+  id: "",
 };
