@@ -1,9 +1,9 @@
 import React from "react";
-import { render, screen, waitFor } from "@testing-library/react";
+import { act, render, screen, waitFor } from "@testing-library/react";
 import Datatable from "./Datatable";
 import axios from "axios";
 import MockAdapter from "axios-mock-adapter"; // Import axios-mock-adapter
-
+import userEvent from "@testing-library/user-event";
 // Sample data for testing
 const mockData = [
   {
@@ -99,5 +99,28 @@ describe("Datatable component", () => {
     await waitFor(() => {
       expect(screen.getByText("Deluxe (QTY: 1)")).toBeInTheDocument();
     });
+  });
+  const clickEditButton = async () => {
+    const editButtons = screen.getAllByRole("button", {
+      name: /Edit/i,
+    });
+    userEvent.click(editButtons[0]);
+  };
+
+  const clickDeleteButton = async () => {
+    const deleteButton = screen.getAllByRole("button", {
+      name: /Delete/i,
+    });
+    userEvent.click(deleteButton[0]);
+  };
+
+  test("clicks the Edit button", async () => {
+    render(<Datatable />);
+    await waitFor(clickEditButton);
+  });
+
+  test("clicks the Delete button", async () => {
+    render(<Datatable />);
+    await waitFor(clickDeleteButton);
   });
 });

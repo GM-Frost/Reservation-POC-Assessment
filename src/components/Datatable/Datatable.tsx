@@ -31,7 +31,7 @@ const Datatable = () => {
     const confirm = window.confirm("Do you want to delete this record?");
     if (confirm) {
       try {
-        await axios.delete(`http://localhost:3000/reservations/${id}`);
+        await axios.delete(`http://localhost:8000/reservations/${id}`);
         handleRefresh();
       } catch (error) {
         console.error("Error deleting data:", error);
@@ -39,7 +39,7 @@ const Datatable = () => {
     }
   };
 
-  //Create USEEffect Hook to fetch data
+  // USEEffect Hook to fetch data
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -186,6 +186,7 @@ const Datatable = () => {
                                     e.stopPropagation();
                                     //   navigate(`/update/${id}`);
                                   }}
+                                  data-testid="edit-button"
                                   className="bg-cyan-600 p-2 rounded-lg text-white   items-center hover:bg-cyan-700 flex justify-center gap-2"
                                 >
                                   Edit <FaEdit />
@@ -196,6 +197,7 @@ const Datatable = () => {
                                     e.stopPropagation();
                                     handleDelete(id);
                                   }}
+                                  data-testid="tableDeleteButton"
                                   className="bg-red-500 p-2 rounded-lg items-center  text-white hover:bg-red-600 flex justify-center gap-2"
                                 >
                                   Delete <IoTrashBin />

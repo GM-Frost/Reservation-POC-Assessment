@@ -33,44 +33,6 @@
       "newsletter": false,
       "confirm": true,
       "id": 1
-    },
-    {
-      "stay": {
-        "arrivalDate": "2023-10-25",
-        "departureDate": "2023-10-24"
-      },
-      "room": {
-        "roomSize": "family-suite",
-        "roomQuantity": 1
-      },
-      "firstName": "Nayan",
-      "lastName": "Bastola",
-      "email": "nayanbastola111@gmail.com",
-      "phone": "+9114379934636",
-      "addressStreet": {
-        "streetName": "asdf",
-        "streetNumber": "asdf"
-      },
-      "addressLocation": {
-        "zipCode": "M3C 0C1",
-        "state": "Ontario",
-        "city": "Ontario"
-      },
-      "extras": [
-        "extraBreakfast",
-        "extraTV",
-        "extraWiFi"
-      ],
-      "payment": "Credit Card",
-      "note": "lab test",
-      "tags": [
-        "hotel",
-        "booking"
-      ],
-      "reminder": false,
-      "newsletter": true,
-      "confirm": true,
-      "id": 2
     }
   ]
 }
