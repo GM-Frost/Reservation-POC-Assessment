@@ -3,7 +3,7 @@ import { MemoryRouter } from "react-router-dom";
 import AddButton from "./AddButton";
 
 describe("AddButton", () => {
-  it("should render the AddButton component", () => {
+  test("should render the AddButton component", () => {
     render(
       <MemoryRouter>
         <AddButton />
