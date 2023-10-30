@@ -4,6 +4,14 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 ## Getting Started
 
+### Install the Node Module:
+
+After cloning. you must first install node module to run the react application 
+
+```bash
+npm i
+```
+
 ### Step 1:
 
 First, run the development server:
