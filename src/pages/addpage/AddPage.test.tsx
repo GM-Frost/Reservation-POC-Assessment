@@ -20,7 +20,6 @@ describe("AddPage", () => {
   });
 
   test("should handle input change", async () => {
-    userEvent.setup();
     render(
       <MemoryRouter>
         <AddPage {...initialReservation} />
@@ -219,17 +218,17 @@ describe("AddPage", () => {
       </MemoryRouter>
     );
 
-    // Mock axios post
-    const mockResponse = { data: "mock response" };
-    (axios.post as jest.Mock).mockResolvedValue(mockResponse);
-    screen.getByRole("button", { name: "Submit" });
-    screen.getByTestId("reservation-form");
-    userEvent.click(screen.getByTestId("submit-button"));
+ // Mock axios post
+ const mockResponse = { data: "mock response" };
+ (axios.post as jest.Mock).mockResolvedValue(mockResponse);
+ screen.getByRole("button", { name: "Submit" });
+ screen.getByTestId("reservation-form");
+ userEvent.click(screen.getByTestId("submit-button"));
 
-    (axios.post as jest.Mock).mockResolvedValue({ data: "Some response data" });
-    const inputElements = screen.getAllByRole("textbox");
-    inputElements.forEach((input) => {
-      expect(input).toHaveValue("");
-    });
+ (axios.post as jest.Mock).mockResolvedValue({ data: "Some response data" });
+ const inputElements = screen.getAllByRole("textbox");
+ inputElements.forEach((input) => {
+   expect(input).toHaveValue("");
+ });
   });
 });
