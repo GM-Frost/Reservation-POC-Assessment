@@ -1,15 +1,15 @@
 {
   "files": {
-    "main.css": "/pocassignment/static/css/main.5209def0.css",
-    "main.js": "/pocassignment/static/js/main.8813a8de.js",
-    "static/js/787.0322cf23.chunk.js": "/pocassignment/static/js/787.0322cf23.chunk.js",
-    "index.html": "/pocassignment/index.html",
-    "main.5209def0.css.map": "/pocassignment/static/css/main.5209def0.css.map",
-    "main.8813a8de.js.map": "/pocassignment/static/js/main.8813a8de.js.map",
-    "787.0322cf23.chunk.js.map": "/pocassignment/static/js/787.0322cf23.chunk.js.map"
+    "main.css": "/Reservation-POC-Assessment/static/css/main.5209def0.css",
+    "main.js": "/Reservation-POC-Assessment/static/js/main.bf81e567.js",
+    "static/js/787.0322cf23.chunk.js": "/Reservation-POC-Assessment/static/js/787.0322cf23.chunk.js",
+    "index.html": "/Reservation-POC-Assessment/index.html",
+    "main.5209def0.css.map": "/Reservation-POC-Assessment/static/css/main.5209def0.css.map",
+    "main.bf81e567.js.map": "/Reservation-POC-Assessment/static/js/main.bf81e567.js.map",
+    "787.0322cf23.chunk.js.map": "/Reservation-POC-Assessment/static/js/787.0322cf23.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.5209def0.css",
-    "static/js/main.8813a8de.js"
+    "static/js/main.bf81e567.js"
   ]
 }
