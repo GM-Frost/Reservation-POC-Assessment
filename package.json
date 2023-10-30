@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "type": "module",
-  "homepage": "https://GM-Frost.github.io/pocassignment",
+  "homepage": "https://GM-Frost.github.io/Reservation-POC-Assessment",
   "dependencies": {
     "@testing-library/dom": "^9.3.3",
     "@testing-library/jest-dom": "^5.17.0",
