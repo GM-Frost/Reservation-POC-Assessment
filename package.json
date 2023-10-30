@@ -2,7 +2,6 @@
   "name": "pocassignment",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://GM-Frost.github.io/pocassignment",
   "type": "module",
   "dependencies": {
     "@testing-library/dom": "^9.3.3",
@@ -34,8 +33,7 @@
     "server": "json-server --watch reservations.json --port 8000",
     "coverage": "react-scripts test --coverage --collectCoverageFrom='src/components/**/*.{ts,tsx}' --collectCoverageFrom='src/pages/**/*.{ts,tsx}' --collectCoverageFrom='!src/pages/**/*.{types,stories,constants,spec,Handlers,Server}.{ts,tsx}' --collectCoverageFrom='!src/components/**/*.{types,stories,constants,spec,Handlers,Server}.{ts,tsx}'",
     "lint": "eslint . --ignore-path .gitignore .",
-    "format": "prettier --ignore-path .gitignore --write \"**/*.{ts,tsx,css,scss}\"",
-    "deploy": "gh-pages -d build"
+    "format": "prettier --ignore-path .gitignore --write \"**/*.{ts,tsx,css,scss}\""
   },
   "eslintConfig": {
     "extends": [
