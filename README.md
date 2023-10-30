@@ -9,7 +9,7 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 After cloning. you must first install node module to run the react application 
 
 ```bash
-npm i --legacy-peer-deps
+npm i
 ```
 
 ### Step 1:
