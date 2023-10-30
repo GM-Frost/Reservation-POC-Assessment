@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "type": "module",
-  "homepage": "https://gm-frost.github.io/pocassignment",
+  "homepage": "https://gm-frost.github.io/Reservation-POC-Assessment",
   "dependencies": {
     "@babel/plugin-transform-nullish-coalescing-operator": "^7.22.11",
     "@babel/plugin-transform-private-property-in-object": "^7.22.11",
