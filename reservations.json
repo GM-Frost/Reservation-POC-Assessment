@@ -69,7 +69,8 @@
       "note": "Quiet room, please",
       "tags": [
         "Vacation",
-        "Relaxation"
+        "Relaxation",
+        "new"
       ],
       "reminder": true,
       "newsletter": true,
@@ -187,6 +188,47 @@
       "newsletter": true,
       "confirm": true,
       "id": 5
+    },
+    {
+      "stay": {
+        "arrivalDate": "2021-11-18",
+        "departureDate": "2021-11-25"
+      },
+      "room": {
+        "roomSize": "business-suite",
+        "roomQuantity": 3
+      },
+      "firstName": "IDM",
+      "lastName": "ENG",
+      "email": "idm.test@idm.com",
+      "phone": "9999999999",
+      "addressStreet": {
+        "streetName": "IDM Street",
+        "streetNumber": "1234"
+      },
+      "addressLocation": {
+        "zipCode": "123456",
+        "state": "Arizona",
+        "city": "OAKVILLE"
+      },
+      "extras": [
+        "extraBreakfast",
+        "extraTV",
+        "extraWiFi",
+        "extraParking",
+        "extraBalcony"
+      ],
+      "payment": "Credit Card",
+      "note": "idm lab test",
+      "tags": [
+        "hotel",
+        "booking",
+        "labtest"
+      ],
+      "reminder": true,
+      "newsletter": true,
+      "confirm": true,
+      "id": 6
     }
   ]
 }

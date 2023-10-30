@@ -136,7 +136,6 @@ const AddPage = (props: IReservation) => {
       setEmptyError(true);
       setErrorMessage("Please Input all fields");
       toast.error("Please Input all fields");
-      return;
     } else if (!formData.payment) {
       setSelectError(true);
       setErrorMessage("Please Select a Payment Method");
@@ -181,12 +180,11 @@ const AddPage = (props: IReservation) => {
     const options = e.target.options;
     const selectedOptions = [];
 
-    for (let i = 0; i < options.length; i++) {
-      if (options[i].selected) {
-        selectedOptions.push(options[i].value);
+    for (const option of options) {
+      if (option.selected) {
+        selectedOptions.push(option.value);
       }
     }
-
     setSelectedExtras(selectedOptions);
     setFormData({
       ...formData,
@@ -200,16 +198,20 @@ const AddPage = (props: IReservation) => {
       <div>
         <div className="flex justify-center items-center  min-h-screen">
           <div className="bg-white p-8 rounded-md shadow-lg w-[80%]">
-            <Link
-              to={"/"}
-              className="flex cursor-pointer hover:text-red-400 justify-start items-center text-center gap-2"
-            >
-              <AiOutlineArrowLeft className="bg-gray-100 rounded-full" />
-              <span>Go Back</span>
-            </Link>
-            <h2 className="flex flex-wrap justify-center text-2xl font-bold mb-4">
-              Add Reservation
-            </h2>
+            <div className="bg-gray-800 p-5 rounded-none text-white">
+              <Link
+                to={"/"}
+                className="flex cursor-pointer hover:text-red-400 justify-start text-gray-800 items-center text-center gap-2"
+              >
+                <AiOutlineArrowLeft className="bg-gray-100 rounded-full  " />
+                <span className="text-gray-100 hover:text-red-400">
+                  Go Back
+                </span>
+              </Link>
+              <h2 className="flex flex-wrap justify-center text-2xl font-bold mb-4">
+                Add Reservation
+              </h2>
+            </div>
             <hr />
             <div className="flex flex-wrap justify-center items-center">
               {(emptyError || selectError) && (
