@@ -1,5 +1,5 @@
-#Link to Live Site: [POC Reservation Live Site](https://pocreservation.nayanbastola.com/).
-- Please allow some time to fetch data from the render site. (1 min max)
+# Link to Live Site: [POC Reservation Live Site](https://pocreservation.nayanbastola.com/).
+ ### - Please allow some time to fetch data from the render site. (1 min max)
 
 # Getting Started with Create React App
 
