@@ -39,7 +39,10 @@ const EditPage = (props: IReservation) => {
     e.preventDefault();
 
     try {
-      await axios.put(`/reservations/${id}`, data);
+      await axios.put(
+        `https://poc-server-lvhd.onrender.com/reservations/${id}`,
+        data
+      );
       toast.info("Reservations updated successfully");
     } catch (error) {
       console.error("Error updating data:", error);
@@ -50,7 +53,9 @@ const EditPage = (props: IReservation) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(`/reservations/${id}`);
+        const response = await axios.get(
+          `https://poc-server-lvhd.onrender.com/reservations/${id}`
+        );
         setData(response.data);
         setLoading(false);
       } catch (error) {
