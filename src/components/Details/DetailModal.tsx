@@ -23,7 +23,9 @@ const DetailModal: React.FC<DetailsModalProps> = ({
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(`/reservations/${detailId}`);
+        const response = await axios.get(
+          `https://poc-server-lvhd.onrender.com/reservations/${detailId}`
+        );
         setFormData(response.data);
       } catch (error) {
         console.error("Error fetching data:", error);

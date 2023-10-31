@@ -77,7 +77,9 @@ const mock = new MockAdapter(axios);
 describe("Datatable component", () => {
   beforeAll(() => {
     // Mock the Axios GET request
-    mock.onGet("/reservations").reply(200, mockData);
+    mock
+      .onGet("https://poc-server-lvhd.onrender.com/reservations")
+      .reply(200, mockData);
   });
 
   afterAll(() => {
