@@ -1,9 +1,9 @@
 {
   "name": "pocassignment",
   "version": "0.1.0",
-  "private": true,
+  "private": false,
   "type": "module",
-  "homepage": "https://GM-Frost.github.io/Reservation-POC-Assessment",
+  "proxy": "https://poc-server-lvhd.onrender.com",
   "dependencies": {
     "@babel/plugin-transform-nullish-coalescing-operator": "^7.22.11",
     "@babel/plugin-transform-private-property-in-object": "^7.22.11",

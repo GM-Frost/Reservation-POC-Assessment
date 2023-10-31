@@ -43,11 +43,9 @@ describe("DetailModal Component", () => {
     (axios.get as jest.Mock).mockResolvedValue({ data: mockResponse });
   });
   test("renders the form", async () => {
-    const detailId = "";
+    const id = "";
 
-    render(
-      <DetailModal isOpen={true} onClose={() => {}} detailId={detailId} />
-    );
+    render(<DetailModal isOpen={true} onClose={() => {}} id={id} />);
 
     await waitFor(() => {
       expect(screen.getByText("Reservations Details")).toBeInTheDocument();
@@ -123,11 +121,9 @@ describe("DetailModal Component", () => {
     });
   });
   test("renders the form with fetched data", async () => {
-    const detailId = "";
+    const id = "";
 
-    render(
-      <DetailModal isOpen={true} onClose={() => {}} detailId={detailId} />
-    );
+    render(<DetailModal isOpen={true} onClose={() => {}} id={id} />);
     await waitFor(() => {
       expect(
         screen.getByText(mockResponse.stay.arrivalDate)

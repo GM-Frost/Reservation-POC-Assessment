@@ -9,33 +9,27 @@ import axios from "axios";
 type DetailsModalProps = {
   isOpen: boolean;
   onClose: () => void;
-  detailId: string;
+  id: string;
 };
 
-const DetailModal: React.FC<DetailsModalProps> = ({
-  isOpen,
-  onClose,
-  detailId,
-}) => {
+const DetailModal: React.FC<DetailsModalProps> = ({ isOpen, onClose, id }) => {
   const [formData, setFormData] = useState<IReservation>(initialReservation);
 
   //fetching Data from ID
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(
-          `http://localhost:8000/reservations/${detailId}`
-        );
+        const response = await axios.get(`/reservations/${id}`);
         setFormData(response.data);
       } catch (error) {
         console.error("Error fetching data:", error);
       }
     };
     fetchData();
-  }, [detailId]);
+  }, [id]);
   return (
     <>
-      {isOpen && formData.id === detailId ? (
+      {isOpen && formData.id === id ? (
         <>
           <div className="fixed inset-0 flex items-start justify-center z-50 overflow-y-auto mb-10">
             <button
@@ -47,7 +41,7 @@ const DetailModal: React.FC<DetailsModalProps> = ({
             <div className="modal-overlay" onClick={onClose} />
             <div className="modal-container bg-white shadow-xl rounded-lg p-4 w-full sm:w-4/5 md:w-3/5 lg:w-2/5 xl:w-3/4 absolute top-20">
               <div className="flex justify-start top-3 left-3 absolute">
-                <p>ID# {detailId}</p>
+                <p>ID# {id}</p>
               </div>
               <h2 className="justify-center text-center text-xl font-bold mb-4">
                 Reservations Details

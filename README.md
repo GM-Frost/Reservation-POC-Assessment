@@ -6,7 +6,7 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 ### Install the Node Module:
 
-After cloning. you must first install node module to run the react application 
+After cloning. you must first install node module to run the react application
 
 ```bash
 npm i
@@ -41,7 +41,6 @@ npm run server
 
 ![server](https://github.com/GM-Frost/Reservation-POC-Assessment/assets/110303752/2b54551a-ac97-416a-bfd1-52f77c938c27)
 
-
 ### Step 3:
 
 - This application allows you to create, update and delete the information about the reservation POC.
@@ -70,6 +69,7 @@ See the section about [running tests](https://facebook.github.io/create-react-ap
 ## Application Screenshots
 
 ### Homepage
+
 ![landingpage](https://github.com/GM-Frost/Reservation-POC-Assessment/assets/110303752/77c69f7d-d6b1-4b4f-9abb-51fc4b6f1fe0)
 
 ### Details Modal
@@ -81,6 +81,7 @@ See the section about [running tests](https://facebook.github.io/create-react-ap
 ![details](https://github.com/GM-Frost/Reservation-POC-Assessment/assets/110303752/3caf0d21-eba1-40c2-ac6f-ba98eb2cb9e7)
 
 ### Add Page
+
 ![add](https://github.com/GM-Frost/Reservation-POC-Assessment/assets/110303752/45743176-1c50-47fb-aef0-53015d9a2dec)
 
 ### Edit Page
@@ -90,10 +91,3 @@ See the section about [running tests](https://facebook.github.io/create-react-ap
 ### Auto Search
 
 ![search](https://github.com/GM-Frost/Reservation-POC-Assessment/assets/110303752/bd07f24b-71bd-4eae-ac4d-168128a81656)
-
-
-
-
-
-
-
