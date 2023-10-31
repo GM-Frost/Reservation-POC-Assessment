@@ -39,7 +39,7 @@ const EditPage = (props: IReservation) => {
     e.preventDefault();
 
     try {
-      await axios.put(`http://localhost:8000/reservations/${id}`, data);
+      await axios.put(`/reservations/${id}`, data);
       toast.info("Reservations updated successfully");
     } catch (error) {
       console.error("Error updating data:", error);
@@ -50,9 +50,7 @@ const EditPage = (props: IReservation) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(
-          `http://localhost:8000/reservations/${id}`
-        );
+        const response = await axios.get(`/reservations/${id}`);
         setData(response.data);
         setLoading(false);
       } catch (error) {

@@ -40,7 +40,7 @@ const Datatable: React.FC<DataTableProps> = ({ search, sort }) => {
     const confirm = window.confirm("Do you want to delete this record?");
     if (confirm) {
       try {
-        await axios.delete(`http://localhost:8000/reservations/${id}`);
+        await axios.delete(`/reservations/${id}`);
         handleRefresh();
       } catch (error) {
         console.error("Error deleting data:", error);
@@ -64,7 +64,7 @@ const Datatable: React.FC<DataTableProps> = ({ search, sort }) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get("http://localhost:8000/reservations");
+        const response = await axios.get("/reservations");
         if (response.data.length === 0) {
           setColumns([]);
           setRecords([]);

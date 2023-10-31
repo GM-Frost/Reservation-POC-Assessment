@@ -148,13 +148,10 @@ const AddPage = (props: IReservation) => {
       return;
     } else {
       try {
-        const response = await axios.post(
-          "http://localhost:8000/reservations",
-          {
-            ...formData,
-            tags: tag,
-          }
-        );
+        const response = await axios.post("/reservations", {
+          ...formData,
+          tags: tag,
+        });
         console.log("Reservation created:", response.data);
         toast.success("Reservation Created!");
         setFormData(initialReservation);

@@ -77,7 +77,7 @@ const mock = new MockAdapter(axios);
 describe("Datatable component", () => {
   beforeAll(() => {
     // Mock the Axios GET request
-    mock.onGet("http://localhost:8000/reservations").reply(200, mockData);
+    mock.onGet("/reservations").reply(200, mockData);
   });
 
   afterAll(() => {
