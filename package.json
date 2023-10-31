@@ -2,7 +2,7 @@
   "homepage": "https://gm-frost.github.io/Reservation-POC-Assessment",
   "name": "pocassignment",
   "version": "0.1.0",
-  "private": true,
+  "private": false,
   "type": "module",
   "proxy": "https://poc-server-lvhd.onrender.com",
   "dependencies": {
